@@ -28,7 +28,7 @@ process.exit = exit
 
 // CLI
 
-before(program, 'outputHelp', function() {
+before(program, 'outputHelp', function () {
   this.allowUnknownOption();
 });
 
@@ -43,7 +43,7 @@ var ipAddress = program.ip || underscore
   .chain(require('os').networkInterfaces())
   .values()
   .flatten()
-  .find(function(iface) {
+  .find(function (iface) {
     return iface.family === 'IPv4' && iface.internal === false;
   })
   .value()
@@ -66,7 +66,7 @@ if (!exit.exited) {
 function before(obj, method, fn) {
   var old = obj[method];
 
-  obj[method] = function() {
+  obj[method] = function () {
     fn.call(this);
     old.apply(this, arguments);
   };
@@ -105,8 +105,8 @@ function main() {
   app.use('/cer', express.static(globalCerFolder));
 
   var cerApp = express();
-  cerApp.get('/cer', function(req, res) {
-    fs.readFile(globalCerFolder + '/myCA.cer', function(err, data) {
+  cerApp.get('/cer', function (req, res) {
+    fs.readFile(globalCerFolder + '/myCA.cer', function (err, data) {
       if (err)
         throw err;
       res.setHeader('Content-disposition', 'attachment; filename=myCA.cer');
@@ -116,7 +116,7 @@ function main() {
   });
   cerApp.listen(port2);
 
-  app.get('/ipa/:ipa', function(req, res) {
+  app.get('/ipa/:ipa', function (req, res) {
     var encodedName = req.params.ipa.replace('.ipa', '');
     var ipa = base64.decode(encodedName);
     var filename = ipasDir + '/' + ipa + '.ipa';
@@ -125,20 +125,20 @@ function main() {
     var readStream = fs.createReadStream(filename);
 
     // This will wait until we know the readable stream is actually valid before piping
-    readStream.on('open', function() {
+    readStream.on('open', function () {
       // This just pipes the read stream to the response object (which goes to the client)
       readStream.pipe(res);
     });
 
     // This catches any errors that happen while creating the readable stream (usually invalid names)
-    readStream.on('error', function(err) {
+    readStream.on('error', function (err) {
       res.end(err);
     });
   });
 
-  app.get(['/', '/download'], function(req, res, next) {
+  app.get(['/', '/download'], function (req, res, next) {
 
-    fs.readFile(path.join(__dirname, '..', 'templates') + '/download.html', function(err, data) {
+    fs.readFile(path.join(__dirname, '..', 'templates') + '/download.html', function (err, data) {
       if (err)
         throw err;
       var template = data.toString();
@@ -150,7 +150,7 @@ function main() {
         items.push(itemInfoWithName(ipas[i], ipasDir));
       }
 
-      items = items.sort(function(a, b) {
+      items = items.sort(function (a, b) {
         var result = b.time.getTime() - a.time.getTime();
         return result;
       });
@@ -165,9 +165,9 @@ function main() {
   });
 
 
-  app.get('/plist/:file', function(req, res) {
+  app.get('/plist/:file', function (req, res) {
 
-    fs.readFile(path.join(__dirname, '..', 'templates') + '/template.plist', function(err, data) {
+    fs.readFile(path.join(__dirname, '..', 'templates') + '/template.plist', function (err, data) {
       if (err)
         throw err;
       var template = data.toString();
@@ -209,7 +209,7 @@ function itemInfoWithName(name, ipasDir) {
   var tmpIn = ipasDir + '/icon.png';
   var tmpOut = ipasDir + '/icon_tmp.png';
   try {
-    ipaEntries.forEach(function(ipaEntry) {
+    ipaEntries.forEach(function (ipaEntry) {
       if (ipaEntry.entryName.indexOf('AppIcon60x60@3x.png') != -1) {
         var buffer = new Buffer(ipaEntry.getData());
         if (buffer.length) {
