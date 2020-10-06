@@ -1,29 +1,22 @@
-自动生成自签名HTTPS服务器，快速安装ipa
+Install IPA with HTTPS, and auto generate certificates.
 
-[README For English](./README-en.md)
+[中文介绍](./README.md)
 
-# iOS 10.3
-* iOS 10.3 [安装方法](https://github.com/bumaociyuan/ios-ipa-server/issues/23) Settings > General > About (logically...) > Certificate Trust Settings > Enable Full Trust for Root Certificates
-
-# iOS 11
-* 需要 `ios-ipa-server1.2.0`以上，并先扫描安装CA证书，信任证书方法同iOS 10.3
-
-
-# 支持
+# Support Platform
 * OS X
 * Ubuntu
 * CentOS
-* 其他平台未测试
+* Not test for other platform
 
-# 需要
+# Require
 * [nodejs](https://nodejs.org/)
 
-# 安装
+# Installation
 ```
 $ npm install -g ios-ipa-server
 ```
 
-# 用法
+# Usage
 ```
 Usage: ios-ipa-server [option] [dir]
 
@@ -35,60 +28,70 @@ Options:
 -i, --ip <ip-address>     set ip address for server (defaults is automatic getting by program)
 ```
 
-## 开启服务
+## Start Server
 ```
 $ cd /path/of/ipa
 $ ios-ipa-server
 
-# or
+# or 
 
 $ ios-ipa-server /path/of/ipa
 
 
-# open https://ip:port/download on your iphone
+# open https://ip:port/download on your iphone 
 ```
 
-### 关于`ipa`打包方法
+### About `ipa` archive
 * [Ad-hoc](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/TestingYouriOSApp/TestingYouriOSApp.html)
-* [企业级分发](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/DistributingEnterpriseProgramApps/DistributingEnterpriseProgramApps.html)
-* 普通开发者账号推荐使用[shenzhen](https://github.com/nomad/shenzhen)打包生成`ipa`
+* [Enterprise Distributing](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/DistributingEnterpriseProgramApps/DistributingEnterpriseProgramApps.html)
+* For normal developer you can use the [shenzhen](https://github.com/nomad/shenzhen) to build the `ipa`.
+* Highly recommond use static ip address, avoid reinstall cer every time.
 
-### 安装app
-* 手机使用safari打开`https://ip:port/download`页面
-* 第一次打开会弹出警告`无法验证服务器`，请点击`详细信息`按钮安装证书，按指示一直点击下一步和完成(**强烈推荐使用静态IP，避免每次重新安装证书**)
-* 点击`ipa`链接在线安装`ipa`
+### Install App
+* Open `https://ip:port/download` page.
+* The first time webpage will alert `Cannot Verify Server Identity`, plz click `Details` button, and install the certificate by follow the hint press next and input password.
+* Click the `ipa` link to install `ipa`.
+* iOS 10.3 [Issue](https://github.com/bumaociyuan/ios-ipa-server/issues/23) Settings > General > About (logically...) > Certificate Trust Settings > Enable Full Trust for Root Certificates
 
 
-![simulator screen shot jun 22 2016 2 45 19 pm 2](https://cloud.githubusercontent.com/assets/4977911/16257320/66c5ff7e-388a-11e6-827a-b5708b86e272.png)
-# 效果图
+![simulator screen shot jun 22 2016 2 38 35 pm 2](https://cloud.githubusercontent.com/assets/4977911/16257321/66d10888-388a-11e6-9b2d-d5ed0d100d8c.png)
+
+# Screenshots
 ![screeshot](screeshot.png)
 
-
-# 开发
+# Develop
 
 ```
-# 下载源码
+# Download source code
 $ git clone git@github.com:bumaociyuan/ios-ipa-server.git
 
-# 安装依赖包
+# Install modules
 $ cd ios-ipa-server
 $ npm install 
 
-# 建立link 方便调试
+# Make link for debug
 $ npm link
 
-# 运行
+# Run
 $ cd /path/of/ipa
 $ ios-ipa-server
 ```
 
 # TODO
 
-- [ ] 支持多语言
-- [ ] 支持[shenzhen](https://github.com/nomad/shenzhen)
-- [ ] 支持上传IPA
-- [ ] iOS 10.3 以上提示 #23 证书信任设置
+- [ ] Support Internationalization
+- [ ] Support [shenzhen](https://github.com/nomad/shenzhen)
+- [ ] Support upload IPA
 
+# Build docker image
+```
+$ docker build -t sophoun/ios-ota-server .
+```
 
-# Lisence
+# Run docker image
+```
+$ docker run -d -p 1234:1234 -v [absolute_path_ipa]:/ipa [image]
+```
+
+#Lisence
 [MIT](https://github.com/bumaociyuan/zxIpaServer/blob/master/LICENSE.md)
