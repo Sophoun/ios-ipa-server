@@ -1,6 +1,7 @@
 FROM node:12.18.1
 
 ENV host_ip=127.0.0.1
+ENV port=1234
 
 # Create app directory
 WORKDIR /app
@@ -20,4 +21,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 1234
-CMD node bin/ios-ipa-server.js -i ${host_ip} -p 1234 /ipa
+CMD node bin/ios-ipa-server.js -i ${host_ip} -p ${port} /ipa

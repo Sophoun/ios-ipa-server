@@ -90,7 +90,11 @@ $ docker build -t sophoun/ios-ota-server .
 
 # Run docker image
 ```
-$ docker run -d -e host_ip=[1.0.0.1] -p 1234:1234 -v [absolute_path_ipa]:/ipa [image]
+$ docker run -d \
+-e host_ip=[1.0.0.1] \
+-e port=[1234] \
+-p 1234:1234 \
+-v [absolute_path_ipa]:/ipa [image]
 ```
 
 #Lisence
